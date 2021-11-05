@@ -31,7 +31,25 @@ router.post("/", function (req, res, next) {
 	);
 });
 
-//Delete a photo
+//edit a message
+router.put("/:message_id", function (req, res, next) {
+
+	var text = req.body.text;
+	var message_id = req.params.message_id;
+	var timestamp = new Date();
+
+	pool.query(
+		"UPDATE messages SET text = ?, timestamp = ?, edited = 1 WHERE message_id = ?",
+		[text, timestamp, message_id],
+		function (err, result) {
+			if (err) throw err;
+			res.send(result);
+		}
+	);
+});
+
+
+//Delete a message
 router.delete("/:message_id", function (req, res, next) {
 
 	var message_id = req.params.message_id;
